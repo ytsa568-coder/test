@@ -65,44 +65,6 @@ const Scene = () => {
           scene.add(character);
           headBone = character.getObjectByName("spine006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
-          
-          if (headBone) {
-            const headsetGroup = new THREE.Group();
-            
-            // Band
-            const bandGeo = new THREE.TorusGeometry(1.0, 0.1, 8, 24, Math.PI);
-            const mat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.8 });
-            const band = new THREE.Mesh(bandGeo, mat);
-            band.rotation.x = -Math.PI / 2;
-            band.position.y = 0;
-            
-            // Ear cups
-            const cupGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 16);
-            const cupMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.6, roughness: 0.4 });
-            const cupL = new THREE.Mesh(cupGeo, cupMat);
-            cupL.position.set(-1.0, -0.2, 0);
-            cupL.rotation.z = Math.PI / 2;
-            const detailL = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.32, 16), new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0xff0000, emissiveIntensity: 0.5 }));
-            detailL.position.copy(cupL.position);
-            detailL.rotation.copy(cupL.rotation);
-
-            const cupR = new THREE.Mesh(cupGeo, cupMat);
-            cupR.position.set(1.0, -0.2, 0);
-            cupR.rotation.z = Math.PI / 2;
-            const detailR = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.32, 16), new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0xff0000, emissiveIntensity: 0.5 }));
-            detailR.position.copy(cupR.position);
-            detailR.rotation.copy(cupR.rotation);
-
-            headsetGroup.add(band, cupL, detailL, cupR, detailR);
-            
-            // Adjust position relative to headBone
-            // Mixamo spine006 is at base of neck/head, so we raise it
-            headsetGroup.position.set(0, 1.2, 0.2); 
-            // Slight tilt
-            headsetGroup.rotation.x = Math.PI / 12;
-
-            headBone.add(headsetGroup);
-          }
 
           progress.loaded().then(() => {
             setTimeout(() => {
